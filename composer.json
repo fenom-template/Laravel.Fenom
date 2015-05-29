@@ -1,0 +1,39 @@
+{
+    "name": "pafnuty/laravel-fenom",
+    "description": "Fenom Template Engine for Laravel 5",
+    "keywords": ["laravel", "fenom", "template", "view"],
+    "authors": [
+        {
+            "name": "Pavel Belousov",
+            "email": "pafnuty@pafnuty.name"
+        },
+        {
+            "name": "Max Kostjukevich",
+            "email": "support@maxicms.ru"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4.0",
+        "ext-tokenizer": "*",
+        "illuminate/support": "5.*",
+        "illuminate/view": "5.*",
+        "illuminate/config": "5.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "satooshi/php-coveralls": "dev-master"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Pafnuty\\Fenom\\": "src/Fenom"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "tests/TestCase.php"
+        ]
+    },
+    "minimum-stability": "stable"
+}
