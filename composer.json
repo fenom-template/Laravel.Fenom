@@ -15,7 +15,7 @@
     "license": "MIT",
     "require": {
         "php": ">=5.4.0",
-        "ext-tokenizer": "*",
+        "fenom/fenom": "2.*",
         "illuminate/support": "5.*",
         "illuminate/view": "5.*",
         "illuminate/config": "5.*"
