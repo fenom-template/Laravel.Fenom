@@ -28,7 +28,7 @@ return [
 	|
 	 */
 
-	'controller_syntax' => 'fenom',
+	'controller_syntax' => env('FENOM_CONTROLLER_SYNTAX', 'fenom'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -73,7 +73,7 @@ return [
 	|
 	 */
 
-	'cache_driver' => 'file',
+	'cache_driver' => env('FENOM_CACHE_DRIVER', 'file'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -85,8 +85,6 @@ return [
 	| @see https://github.com/fenom-template/fenom/blob/master/docs/en/configuration.md
 	| @see https://github.com/fenom-template/fenom/blob/master/docs/ru/configuration.md
 	| 
-	| Ниже представлен конфиг для удобного ведения разработки, 
-	| Рекомендуем отключить опцию 
 	*/
 	
 	
