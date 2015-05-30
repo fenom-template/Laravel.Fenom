@@ -5,6 +5,11 @@ Fenom Template Engine for Laravel 5
 
 Bringing [Fenom](https://github.com/fenom-template/fenom) to Laravel 5 using the new [Contracts Package](https://github.com/illuminate/contracts).
 
+## Syntax 
+Fenom — this is a very quick and easy template engine! With easy syntax.
+[English docs](https://github.com/fenom-template/fenom/blob/master/docs/en/readme.md)
+[Russian docs](https://github.com/fenom-template/fenom/blob/master/docs/ru/readme.md)
+
 ##Installation
 - Add `"pafnuty/laravel-fenom": "dev-master"` to your `composer.json` file and run `composer update`.
 - Add `'Pafnuty\Fenom\FenomViewServiceProvider'` to your `config/app.php` providers array, 
