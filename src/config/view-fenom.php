@@ -11,14 +11,17 @@
 	return [
 
 		// file extension
-		'extension'     => 'tpl',
-
+		'extension'         => 'tpl',
 		// path info
-		'template_path' => base_path() . '/resources/views',
-		'compile_path'  => storage_path() . '/fenom/compile',
+		'template_path'     => base_path() . '/resources/views',
+		'compile_path'      => storage_path() . '/fenom/compile',
+		// fenom cache driver "file"
+		'cache_driver'      => 'file',
+		// syntax controlle call view template
+		'controller_syntax' => 'fenom', // fenome, blade
 
 		// options fenom compiler
-		'options' => []
+		'options'           => []
 		/*
 		'options'       => [
 			// disable calling methods of objects in templates.
