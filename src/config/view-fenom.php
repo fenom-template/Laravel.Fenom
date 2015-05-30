@@ -1,52 +1,107 @@
 <?php
 
-	/**
-	 * Fenom configure
-	 *
-	 * @author  Pavel Belousov pafnuty10@gmail.com
-	 * @author  Max Kostjukevich support@maxicms.ru
-	 * @license http://opensource.org/licenses/MIT MIT
+/*
+|--------------------------------------------------------------------------
+| Fenom configure
+|--------------------------------------------------------------------------
+|
+| @author  Pavel Belousov pafnuty10@gmail.com
+| @author  Max Kostjukevich support@maxicms.ru
+| @license http://opensource.org/licenses/MIT MIT
+|
+ */
+
+return [
+
+	/*
+	|--------------------------------------------------------------------------
+	| Syntax controller call view template
+	|--------------------------------------------------------------------------
+	|
+	| Setting the syntax to describe the connection template in the controller
+	|
+	| Default is: view('fenom/welcome.tpl');
+	| If need blade style syntax — set 'blade' for view('fenom.welcome');
+	|
+	|
+	| Available Settings: 'fenom', 'blade'
+	|
 	 */
 
-	return [
+	'controller_syntax' => 'fenom',
 
-		// file extension
-		'extension'         => 'tpl',
-		// path info
-		'template_path'     => base_path() . '/resources/views',
-		'compile_path'      => storage_path() . '/fenom/compile',
-		// fenom cache driver "file"
-		'cache_driver'      => 'file',
-		// syntax controlle call view template
-		'controller_syntax' => 'fenom', // fenome, blade
+	/*
+	|--------------------------------------------------------------------------
+	| File extention for template files
+	|--------------------------------------------------------------------------
+	|
+	| It is necessary for blade syntax in the controller
+	|
+	 */
 
-		// options fenom compiler
-		'options'           => []
-		/*
-		'options'       => [
-			// disable calling methods of objects in templates.
-			'disable_methods'      => false,
-			// disable calling native function in templates, except allowed.
-			'disable_native_funcs' => false,
-			// reload template if source will be changed
-			'auto_reload'          => false,
-			// recompile template every time when the template renders
-			'force_compile'        => false,
-			// disable compile cache
-			'disable_cache'        => false,
-			// paste template body instead of include-tag
-			'force_include'        => false,
-			// html-escape each variables outputs
-			'auto_escape'          => false,
-			// check existence every used variable
-			'force_verify'         => false,
-			// remove space-characters before and after tags
-			'<!--'                 => true,
-			// disable calling static methods in templates.
-			'disable_statics'      => false,
-			// strip all whitespaces in templates.
-			'strip'                => true
-		],
-		*/
+	'extension' => 'tpl',
 
-	];
+	/*
+	|--------------------------------------------------------------------------
+	| View Storage Paths
+	|--------------------------------------------------------------------------
+	|
+	| Description
+	|
+	 */
+
+	'template_path' => base_path() . '/resources/views',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Compiled View Path
+	|--------------------------------------------------------------------------
+	|
+	| This option determines where all the compiled Fenom templates will be
+	| stored for your application. Typically, this is within the storage
+	| directory. However, as usual, you are free to change this value.
+	|
+	 */
+	'compile_path' => storage_path() . '/fenom/compile',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Cache Driver
+	|--------------------------------------------------------------------------
+	|
+	| At this point, the template engine is tested only with file caching
+	|
+	 */
+
+	'cache_driver' => 'file',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Fenom options
+	|--------------------------------------------------------------------------
+	|
+	| The parameters of a template
+	| 
+	| @see https://github.com/fenom-template/fenom/blob/master/docs/en/configuration.md
+	| @see https://github.com/fenom-template/fenom/blob/master/docs/ru/configuration.md
+	| 
+	| Ниже представлен конфиг для удобного ведения разработки, 
+	| Рекомендуем отключить опцию 
+	*/
+	
+	
+	'options' => [
+		'disable_methods'      => env('FENOM_DISABLE_METHODS'),	
+		'disable_native_funcs' => env('FENOM_DISABLE_NATIVE_FUNCS'),	
+		'auto_reload'          => env('FENOM_AUTO_RELOAD'),	
+		'force_compile'        => env('FENOM_FORCE_COMPILE'),	
+		'disable_cache'        => env('FENOM_DISABLE_CACHE'),	
+		'force_include'        => env('FENOM_FORCE_INCLUDE'),	
+		'auto_escape'          => env('FENOM_AUTO_ESCAPE'),	
+		'force_verify'         => env('FENOM_FORCE_VERIFY'),	
+		'disable_statics'      => env('FENOM_DISABLE_STATICS'),	
+		'strip'                => env('FENOM_STRIP'),	
+	],
+
+
+];
