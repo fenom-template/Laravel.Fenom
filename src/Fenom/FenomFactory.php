@@ -3,6 +3,7 @@
     namespace Pafnuty\Fenom;
 
     use Illuminate\Contracts\View\Factory as FactoryContract;
+    use Illuminate\Contracts\Container\Container;
     use Illuminate\Foundation\Application;
 
     /**
@@ -28,12 +29,35 @@
         private $fenom;
 
         /**
+         * The event dispatcher instance.
+         *
+         * @var \Illuminate\Contracts\Events\Dispatcher
+         */
+        protected $events;
+
+        /**
+         * The view composer events.
+         *
+         * @var array
+         */
+        protected $composers = array();
+
+        /**
+         * The IoC container instance.
+         *
+         * @var \Illuminate\Contracts\Container\Container
+         */
+        protected $container;
+
+        /**
          * @param \Illuminate\Foundation\Application $app
          */
         public function __construct(Application $app)
         {
             $this->fenom = $app['fenom'];
             $this->config = $app['config'];
+            $this->events = $app['events'];
+
         }
 
         /**
@@ -57,7 +81,26 @@
 
             return true;
         }
+        /**
+         * Get the IoC container instance.
+         *
+         * @return \Illuminate\Contracts\Container\Container
+         */
+        public function getContainer()
+        {
+            return $this->container;
+        }
 
+        /**
+         * Set the IoC container instance.
+         *
+         * @param  \Illuminate\Contracts\Container\Container  $container
+         * @return void
+         */
+        public function setContainer(Container $container)
+        {
+            $this->container = $container;
+        }
         /**
          * Get the evaluated view contents for the given path.
          *
@@ -119,6 +162,24 @@
         }
 
         /**
+         * Register multiple view composers via an array.
+         *
+         * @param  array  $composers
+         * @return array
+         */
+        public function composers(array $composers)
+        {
+            $registered = array();
+
+            foreach ($composers as $callback => $views)
+            {
+                $registered = array_merge($registered, $this->composer($views, $callback));
+            }
+
+            return $registered;
+        }
+
+        /**
          * Register a view composer event.
          *
          * @param  array|string    $views
@@ -127,9 +188,125 @@
          *
          * @return array
          */
+
         public function composer($views, $callback, $priority = null)
         {
+            $composers = array();
 
+            foreach ((array) $views as $view)
+            {
+                $composers[] = $this->addViewEvent($view, $callback, 'composing: ', $priority);
+            }
+
+            return $composers;
+        }
+
+        protected function addViewEvent($view, $callback, $prefix = 'composing: ', $priority = null)
+        {
+            if ($callback instanceof Closure)
+            {
+                $this->addEventListener($prefix.$view, $callback, $priority);
+                return $callback;
+            }
+            elseif (is_string($callback))
+            {
+                return $this->addClassEvent($view, $callback, $prefix, $priority);
+            }
+        }
+
+        /**
+         * Register a class based view composer.
+         *
+         * @param  string    $view
+         * @param  string    $class
+         * @param  string    $prefix
+         * @param  int|null  $priority
+         * @return \Closure
+         */
+        protected function addClassEvent($view, $class, $prefix, $priority = null)
+        {
+            $name = $prefix.$view;
+
+            // When registering a class based view "composer", we will simply resolve the
+            // classes from the application IoC container then call the compose method
+            // on the instance. This allows for convenient, testable view composers.
+            $callback = $this->buildClassEventCallback($class, $prefix);
+
+            $this->addEventListener($name, $callback, $priority);
+
+            return $callback;
+        }
+
+        /**
+         * Add a listener to the event dispatcher.
+         *
+         * @param  string    $name
+         * @param  \Closure  $callback
+         * @param  int      $priority
+         * @return void
+         */
+        protected function addEventListener($name, $callback, $priority = null)
+        {
+            if (is_null($priority))
+            {
+                $this->events->listen($name, $callback);
+            }
+            else
+            {
+                $this->events->listen($name, $callback, $priority);
+            }
+        }
+
+        /**
+         * Build a class based container callback Closure.
+         *
+         * @param  string  $class
+         * @param  string  $prefix
+         * @return \Closure
+         */
+        protected function buildClassEventCallback($class, $prefix)
+        {
+            list($class, $method) = $this->parseClassEvent($class, $prefix);
+
+            // Once we have the class and method name, we can build the Closure to resolve
+            // the instance out of the IoC container and call the method on it with the
+            // given arguments that are passed to the Closure as the composer's data.
+            return function() use ($class, $method)
+            {
+                $callable = array($this->container->make($class), $method);
+
+                return call_user_func_array($callable, func_get_args());
+            };
+        }
+
+        /**
+         * Parse a class based composer name.
+         *
+         * @param  string  $class
+         * @param  string  $prefix
+         * @return array
+         */
+        protected function parseClassEvent($class, $prefix)
+        {
+            if (str_contains($class, '@'))
+            {
+                return explode('@', $class);
+            }
+
+            $method = str_contains($prefix, 'composing') ? 'compose' : 'create';
+
+            return array($class, $method);
+        }
+
+        /**
+         * Call the composer for a given view.
+         *
+         * @param  \Illuminate\View\View  $view
+         * @return void
+         */
+        public function callComposer(FenomView $view)
+        {
+            $this->events->fire('composing: '.$view->getName(), array($view));
         }
 
         /**
@@ -157,5 +334,6 @@
         {
 
         }
+
 
     }

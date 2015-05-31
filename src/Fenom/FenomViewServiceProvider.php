@@ -66,8 +66,15 @@
 			$this->publishes([$configPath => config_path('view-fenom.php')]);
 
 			$this->app->bind('view', function ($app) {
-				return new FenomFactory($app);
+				$env =  new FenomFactory($app);
+
+				$env->setContainer($app);
+				$env->share('app', $app);
+
+				return $env;
 			});
+
+
 		}
 
 		/**
