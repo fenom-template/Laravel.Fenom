@@ -45,7 +45,7 @@ Views by default have a structure similar to the structure of the blade for easi
 ## Use
 If you use the setting `'controller_syntax' => 'blade'`, changes to the controllers do not need to make.
 
-If setting `'controller_syntax' => 'blade'` calling view in controller will be like this:
+If setting `'controller_syntax' => 'fenom'` calling view in controller will be like this:
 ```php
 public function index() {
     return view('myfolder/welcome.tpl');
