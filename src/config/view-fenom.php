@@ -20,15 +20,14 @@ return [
 	|
 	| Setting the syntax to describe the connection template in the controller
 	|
-	| Default is: view('fenom/welcome.tpl');
-	| If need blade style syntax — set 'blade' for view('fenom.welcome');
-	|
+	| Default is blade: view('welcome');     or view('auth.login');
+	| Fenom is:         view('welcome.tpl'); or view('auth/login.tpl');
 	|
 	| Available Settings: 'fenom', 'blade'
 	|
 	 */
 
-	'controller_syntax' => env('FENOM_CONTROLLER_SYNTAX', 'fenom'),
+	'controller_syntax' => env('FENOM_CONTROLLER_SYNTAX', 'blade'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -50,7 +49,7 @@ return [
 	|
 	 */
 
-	'template_path' => base_path() . '/resources/views',
+	'template_path' => base_path() . '/resources/views/fenom',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -91,7 +90,7 @@ return [
 	'options' => [
 		'disable_methods'      => env('FENOM_DISABLE_METHODS'),	
 		'disable_native_funcs' => env('FENOM_DISABLE_NATIVE_FUNCS'),	
-		'auto_reload'          => env('FENOM_AUTO_RELOAD'),	
+		'auto_reload'          => env('FENOM_AUTO_RELOAD', true),	
 		'force_compile'        => env('FENOM_FORCE_COMPILE'),	
 		'disable_cache'        => env('FENOM_DISABLE_CACHE'),	
 		'force_include'        => env('FENOM_FORCE_INCLUDE'),	
