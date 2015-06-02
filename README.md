@@ -55,8 +55,64 @@ public function index() {
 
 ## Syntax 
 Fenom — this is a very quick and easy template engine! With easy syntax, similar to Smarty Template Engine.
+
+## Control Structures
+
+### If Statements
+```smarty
+{if $records|length === 1)
+    I have one record!
+{elseif $records| length > 1}
+    I have multiple records!
+{else}
+    I don't have any records!
+{/if}
+```
+
+###  Loops
+```smarty
+{for ($i = 0 to = 10)
+    The current value is {$i}
+{forelse}
+    No values
+{/for}
+
+{foreach $list as $key => $value}
+    {$key}: {$value}
+{foreachelse}
+    Empty
+{/foreach}
+```
+
+###  Including Sub-Views
+```
+{include 'auth/errors.tpl' foo='bar'}
+or
+{insert 'auth/errors.tpl'}
+```
+
+###  Overwriting Sections
+```
+{* in app.tpl: *}
+{block 'content'} text {/block}
+
+{* in home.tpl: *}
+{extends 'app.tpl'}
+{block 'content'} home-text {/block}
+
+{* in browser: *}
+home-text
+```
+
+### Comments 
+```
+{* This comment will not be in the rendered HTML  *}
+```
+
+More usage examples can be found on the Fenom documentation pages
 - [English docs](https://github.com/fenom-template/fenom/blob/master/docs/en/readme.md)
 - [Russian docs](https://github.com/fenom-template/fenom/blob/master/docs/ru/readme.md)
+
 
 
 
