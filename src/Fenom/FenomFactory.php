@@ -142,7 +142,8 @@
          */
         public function share($key, $value = null)
         {
-            $this->fenom->addAccessor($key, $value);
+            $this->fenom->{$key} = $value;
+            $this->fenom->addAccessorSmart($key, '$tpl->getStorage()->'.$key, \Fenom::ACCESSOR_VAR);
         }
 
         /**
