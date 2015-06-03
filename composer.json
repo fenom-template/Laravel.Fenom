@@ -4,12 +4,16 @@
     "keywords": ["laravel", "fenom", "template", "view"],
     "authors": [
         {
+            "name": "Max Kostjukevich",
+            "email": "support@maxicms.ru"
+        },
+        {
             "name": "Pavel Belousov",
             "email": "pafnuty@pafnuty.name"
         },
         {
-            "name": "Max Kostjukevich",
-            "email": "support@maxicms.ru"
+            "name": "Ivan Shalganov",
+            "email": "a.cobest@gmail.com"
         }
     ],
     "license": "MIT",

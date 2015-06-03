@@ -12,12 +12,18 @@ In the require key of composer.json file add the following
 "pafnuty/laravel-fenom": "dev-master"
 ```
 
-Run the Composer update comand
+Run the Composer update command
 ```
 $ composer update
 ```
+
+Run command
+```
+$ php artisan clear-compiled
+```
     
-In your **config/app.php** add `'Pafnuty\Fenom\FenomViewServiceProvider',` to the end of the `providers` array and comment the `'Illuminate\View\ViewServiceProvider'` provider. Like this:
+In your **config/app.php** add `'Pafnuty\Fenom\FenomViewServiceProvider',` to the end of the `providers` array **and comment** the `'Illuminate\View\ViewServiceProvider'` provider. 
+Like this:
 
 ```php
 'providers' => [
@@ -107,6 +113,24 @@ home-text
 ### Comments 
 ```
 {* This comment will not be in the rendered HTML  *}
+```
+
+### Errors
+```
+{set $errors = $.errors}
+    
+{if $errors->any()}  
+    {foreach $errors->all() as $error} 
+        {$error}
+    {/foreach}
+{/if}
+```
+
+### App
+```
+{set $App = $.app}
+    
+{$App::someMethodName()}
 ```
 
 More usage examples can be found on the Fenom documentation pages
