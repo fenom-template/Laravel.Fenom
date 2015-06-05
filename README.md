@@ -9,7 +9,7 @@ Bringing [Fenom](https://github.com/fenom-template/fenom) to Laravel 5 using the
 
 In the require key of composer.json file add the following
 ```
-"pafnuty/laravel-fenom": "dev-master"
+"pafnuty/laravel-fenom": "1.*"
 ```
 
 Run the Composer update command
